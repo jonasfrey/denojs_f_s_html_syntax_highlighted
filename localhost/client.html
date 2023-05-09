@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>test</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+
+    </head>
+    <body>
+
+        <div id="browser_notifier">
+        </div>
+
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <script type="module" async defer>
+
+
+//./readme.md:start
+//md: # usage
+//md: ## import module
+import {
+  f_s_html_syntax_highlighted, 
+  s_css_syntax_highlight,
+  f_add_css,
+  f_append_child_with_syntax_highlight
+
+} from "./client.module.js";
+// import {f_s_html_syntax_highlighted} from "https://deno.land/x/f_s_html_syntax_highlighted@[version]/mod.js";
+//md: ## convert json or js object to html with classses
+
+let s_html_syntax_highlighted = f_s_html_syntax_highlighted(
+    {
+      n: 23, 
+      s: 'hello', 
+      a_n: [1,2,3], 
+      a_s: ['s', 'u', 'p'], 
+      a: null, 
+      b: false, 
+      o: {
+        n: 23, 
+        s: 'hello', 
+        a_n: [1,2,3], 
+        a_s: ['s', 'u', 'p'], 
+      }, 
+      a_o: [
+        {
+          n: 2
+        },
+        {
+          n: 3
+        },
+        {
+          n: 4
+        },
+      ]
+    }
+)
+//md: ## add the css that comes with the library
+
+f_add_css(
+  s_css_syntax_highlight
+);
+
+//md: ## optionally add custom css
+
+
+f_add_css(
+  `
+  .my_custom_theme .s_html_syntax_highlighted .string { color: green; }
+  .my_custom_theme .s_html_syntax_highlighted .number { color: darkorange; }
+  .my_custom_theme .s_html_syntax_highlighted .boolean { color: blue; }
+  .my_custom_theme .s_html_syntax_highlighted .null { color: magenta; }
+  .my_custom_theme .s_html_syntax_highlighted .key { color: red; }
+`
+)
+      
+//md: ## create a html element with a class for the theme 
+let o_div = document.createElement("div");
+o_div.className = 'theme_dark'//dark or
+o_div.className = 'theme_light'//light theme
+o_div.className = 'my_custom_theme'//custom 
+o_div.innerHTML = s_html_syntax_highlighted
+document.body.appendChild(o_div);
+
+//md: ## add html (with f_o_html_from_o_js)
+import {f_o_html_from_o_js} from "https://deno.land/x/f_o_html_from_o_js@0.7/mod.js";
+document.body.appendChild(
+  f_o_html_from_o_js(
+
+    {
+      a_o: [
+        ...['theme_dark', 'theme_light'].map(function(
+          s
+        ){
+          return {
+            class: s, 
+            innerHTML: s_html_syntax_highlighted
+          }
+        })
+      ]
+      
+    }
+  )
+)
+//md: ## use the function that does all for you
+f_append_child_with_syntax_highlight(
+  document.body,
+  {
+    s:'test', 
+    n:2, 
+    b: false, 
+    n: null, 
+    a: [1,2], 
+    o: {n:2, n:3}
+  }, 
+  'theme_light'
+)
+//./readme.md:end
+
+        </script>
+
+    </body>
+</html>
