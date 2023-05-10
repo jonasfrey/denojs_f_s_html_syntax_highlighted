@@ -1,3 +1,5 @@
+import {f_add_css} from "https://deno.land/x/f_add_css@0.3/mod.js"
+
 let f_s_html_syntax_highlighted = function(
     v_object_or_json
 ){
@@ -65,38 +67,7 @@ let f_b_valid_url = function(string) {
     return url.protocol === "http:" || url.protocol === "https:";
   }
 
-let f_add_css = function(
-    o_document,
-    s_path_file,
-    s_css
-){
-    if(typeof o_document == 'string'){
-        if(f_b_valid_url(o_document)){
-            s_path_file = o_document, 
-            o_document = document, 
-            s_css = null
-        }else{
-            s_css = o_document
-            o_document = document
-        }
-    }
 
-    let o_el = null;
-    if(s_css){
-        var o_el_style = o_document.createElement("style")
-        o_el_style.innerText = s_css
-        o_el = o_el_style
-    }else{
-        o_el = o_document.createElement("link");
-        o_el.rel = "stylesheet"
-        o_el.href = s_path_file
-        // <link rel="stylesheet" href="mystyle.css">
-    }
-    o_el.crossorigin="anonymous"; 
-
-    // o_document.head.appendChild(o_el)
-    o_document.head.insertBefore(o_el, o_document.head.firstChild);// this way the css will not overwrite
-}
 
 let f_append_child_with_syntax_highlight = function(
     o_element, 
